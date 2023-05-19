@@ -46,9 +46,20 @@ async function run() {
     await client.connect();
 
 
+     const database = client.db("toysDB");
+    const allToysCollation = database.collection("allToys");
+
+    app.get('/allToys',async(req,res)=>{
 
 
+       
+      const result = await allToysCollation.find().toArray();
 
+
+      res.send(result)
+
+
+    })
 
 
 
@@ -89,7 +100,7 @@ run().catch(console.dir);
 app.listen(port,()=>{
 
     console.log(port,"is running")
-})
+});
 
 
 
