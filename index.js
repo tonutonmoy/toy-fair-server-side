@@ -107,6 +107,24 @@ async function run() {
 
 
 
+    // find 1 data
+
+    app.get('/viewDetails/:id',async(req,res)=>{
+
+      const id = req.params.id;
+
+
+      const query={_id : new ObjectId(id)}
+
+
+      const result = await allToysCollation.findOne(query)
+
+      res.send(result)
+
+
+
+    })
+
     // add a toy
 
    app.post('/addAToy',async(req,res)=>{
