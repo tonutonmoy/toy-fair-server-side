@@ -230,6 +230,52 @@ async function run() {
 
 
 
+    // sort by price
+
+    app.get('/sortByPrice',async(req,res)=>{
+
+      const email= req.query.email;
+      const text= req.query.text;
+
+
+
+      const query={sellerEmail: email }
+      
+
+      let order=0;
+
+      if(text==='high'){
+
+
+        order= -1;
+      }
+      
+    
+      if(text==='low'){
+
+
+        order= 1;
+      }
+
+    
+     
+
+
+      const result=  await allToysCollation.find(query).sort({price: order}).toArray()
+
+      
+      res.send(result)
+
+
+    });
+
+
+
+
+
+
+
+
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
