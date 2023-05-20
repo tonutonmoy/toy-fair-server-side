@@ -88,7 +88,7 @@ async function run() {
 
     app.get('/myToys',async(req,res)=>{
 
-      console.log(req.query)
+     
 
       let query= {};
 
@@ -98,16 +98,78 @@ async function run() {
     }
 
 
-  
+     const result= await allToysCollation.find(query ).toArray()
 
-  const result= await allToysCollation.find(query ).toArray()
+ 
 
-  // console.log(result)
+    res.send(result)
 
-  res.send(result)
+     });
 
-   })
+
+    
+
+
+   // get single toy
    
+    app.get('/updateToy/:id',async(req,res)=>{
+
+     
+      const id = req.params.id;
+
+     
+      
+      const query={_id: new ObjectId(id)}
+
+    
+
+
+     const result= await allToysCollation.findOne(query )
+
+ 
+
+      res.send(result)
+
+      });
+   
+
+
+
+    //  update toy
+   
+    app.put('/updateSingleToy/:id',async(req,res)=>{
+
+     
+      const id = req.params.id;
+
+      const updateData=req.body
+      
+      const query={_id: new ObjectId(id)}
+
+    
+    
+
+   
+     const options = { upsert: true };
+
+        const updateDoc = {
+          $set: {
+           description: updateData?.description,
+           price: updateData?.price,
+           quantity: updateData?.quantity
+          },
+        };
+
+        const result = await allToysCollation.updateOne(query, updateDoc,options);
+
+
+ 
+
+    res.send(result)
+
+     });
+   
+
 
 
 
