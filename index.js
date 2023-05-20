@@ -49,6 +49,9 @@ async function run() {
      const database = client.db("toysDB");
     const allToysCollation = database.collection("allToys");
 
+
+    // find allToys
+
     app.get('/allToys',async(req,res)=>{
 
 
@@ -63,7 +66,48 @@ async function run() {
 
 
 
+    // add a toy
 
+   app.post('/addAToy',async(req,res)=>{
+
+    
+        const addAToy= req.body
+
+       
+       
+      const result = await allToysCollation.insertOne(addAToy);
+
+
+      res.send(result)
+
+
+    })
+
+
+  // my toys
+
+    app.get('/myToys',async(req,res)=>{
+
+      console.log(req.query)
+
+      let query= {};
+
+    if(req.query?.email){
+
+      query={sellerEmail: req.query?.email}
+    }
+
+
+  
+
+  const result= await allToysCollation.find(query ).toArray()
+
+  // console.log(result)
+
+  res.send(result)
+
+   })
+   
 
 
 
