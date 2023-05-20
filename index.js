@@ -50,13 +50,39 @@ async function run() {
     const allToysCollation = database.collection("allToys");
 
 
+    // Creating index
+
+    const indexKeys={toyName: 1}
+
+    const indexOption= {name: "toyName"}
+
+    const IndexResult = allToysCollation.createIndex(indexKeys,indexOption)
+
+
+
+
+    // find by toy name
+
+    app.get('/findByToyName',(req,res)=>{
+
+
+      const name= req.query.name;
+
+      console.log(name)
+
+    })
+
+
+
     // find allToys
 
     app.get('/allToys',async(req,res)=>{
 
+     const skip= 0;
 
+     const limit= 20;
        
-      const result = await allToysCollation.find().toArray();
+      const result = await allToysCollation.find().skip(skip).limit(limit).toArray();
 
 
       res.send(result)
