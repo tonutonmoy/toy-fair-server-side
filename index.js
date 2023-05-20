@@ -52,9 +52,9 @@ async function run() {
 
     // Creating index
 
-    const indexKeys={toyName: 1}
+    const indexKeys={toyName: 1,subCategory: 1};
 
-    const indexOption= {name: "toyName"}
+    const indexOption= {name: "toyNameAndSubCategory"};
 
     const IndexResult = allToysCollation.createIndex(indexKeys,indexOption)
 
@@ -63,16 +63,31 @@ async function run() {
 
     // find by toy name
 
-    app.get('/findByToyName',(req,res)=>{
+    app.get('/findByToyName',async(req,res)=>{
 
 
       const name= req.query.name;
 
-      console.log(name)
+      
+        
+
+      const result = await allToysCollation.find({
+
+       $or: [
+
+        {toyName: { $regex: name, $options: "i"}},
+        {subCategory: { $regex: name, $options: "i"}},
+       ]
+
+      }).toArray()
+
+      
+
+      res.send(result)
 
     })
 
-
+  
 
     // find allToys
 
